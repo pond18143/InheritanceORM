@@ -70,6 +70,14 @@ public class FulltimeEmployee extends Employee implements Serializable {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("InheritanceORMPU");
         EntityManager em = emf.createEntityManager();
         FulltimeEmployee fromDb = em.find(FulltimeEmployee.class, emp.getId());
+        //check name = null
+        if (emp.getName() == null && fromDb.getName() != null) {
+            emp.setName(fromDb.getName());
+        }
+        //check Hour = 0
+        if (emp.getSalary() == 0 && fromDb.getSalary() != 0) {
+            emp.setSalary(fromDb.getSalary());
+        }
         fromDb.setName(emp.getName());
         fromDb.setSalary(emp.getSalary());
         em.getTransaction().begin();

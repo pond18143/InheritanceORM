@@ -65,11 +65,19 @@ public class ParttimeEmployee extends Employee implements Serializable {
             em.close();
         }
     }
-    
+
     public void updateParttime(ParttimeEmployee emp) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("InheritanceORMPU");
         EntityManager em = emf.createEntityManager();
         ParttimeEmployee fromDb = em.find(ParttimeEmployee.class, emp.getId());
+        //check name = null
+        if (emp.getName() == null && fromDb.getName() != null) {
+            emp.setName(fromDb.getName());
+        }
+        //check Hour = 0
+        if (emp.getHoursWork() == 0 && fromDb.getHoursWork() != 0) {
+            emp.setHoursWork(fromDb.getHoursWork());
+        }
         fromDb.setName(emp.getName());
         fromDb.setHoursWork(emp.getHoursWork());
         em.getTransaction().begin();
